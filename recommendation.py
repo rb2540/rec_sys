@@ -49,7 +49,12 @@ df = spark.sql("Select userid_int as user, trackid_int as item, count as rating 
 
 print('training ALS model')
 
-als = ALS().setRank(10).setMaxIter(10)
+als = ALS(rank=10,
+          maxIter=10,
+          regParam=0.01,
+          implicitPrefs=True,
+          userCol="user",
+          itemCol="item",
+          ratingCol="rating")
 als.fit(df)
-
 als.save("als_model")
